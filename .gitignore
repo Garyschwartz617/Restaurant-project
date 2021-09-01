@@ -1,0 +1,4 @@
+Restaurant/local_settings.py
+__pycache__/
+*/__pycache__/
+db.sqlite3
