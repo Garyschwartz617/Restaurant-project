@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<h2>Create a new Ingrediant</h2>
+
+<form action="" method="post">
+  {% csrf_token %}
+  {{form.as_p}}
+  <button class="btn btn-primary">Create Ingrediant</button>
+</form>
+
+<h1>These are the Ingrediants</h1>
+{% if ingrediants%}
+<div class= 'row'>
+  {% for ingrediant in ingrediants %}
+  <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">Name: {{ingrediant.name}} </h5>
+        {% if user.is_superuser%}
+        <form action="{%url 'delete_ingrediant' ingrediant.id %}" method="post">
+          {% csrf_token %}
+          
+          <button class="btn btn-danger">Delete Ingrediant</button>
+        </form>
+        {% endif %}
+
+        <p></p>
+      </div>
+    </div>
+  {% endfor %}
+  
+  </div>
+  {% endif %}
+{% endblock %}

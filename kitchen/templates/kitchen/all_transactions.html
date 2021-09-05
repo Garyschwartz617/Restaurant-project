@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<h2>Create a new Transaction</h2>
+
+<form action="" method="post">
+  {% csrf_token %}
+  {{form.as_p}}
+  <button class="btn btn-primary">Create Transaction</button>
+</form>
+
+<h1>These are the Transactions</h1>
+{% if transactions%}
+<div class= 'row'>
+  {% for transaction in transactions %}
+  <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">Name: {{transaction.ingrediant.name}} </h5>
+        <p class="card-text">Amount: {{transaction.measurement.name}}</p>
+        <p class="card-text">Cost: {{transaction.cost}}</p>
+
+
+        <p></p>
+      </div>
+    </div>
+  {% endfor %}
+  
+  </div>
+  {% endif %}
+{% endblock %}

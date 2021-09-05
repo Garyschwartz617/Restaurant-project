@@ -21,8 +21,8 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('finance/', include('finance.urls')),
-    path('kitcheb/', include('kitchen.urls')),
-    path('kitcheb/', include('service.urls')),
+    path('kitchen/', include('kitchen.urls')),
+    path('service/', include('service.urls')),
     path('', include('users.urls')),
 
 ]

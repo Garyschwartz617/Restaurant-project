@@ -10,8 +10,6 @@ class Tipe(models.Model):
     def __str__(self):
         return self.name
 
-
-
 class Bill(models.Model):
     name = models.CharField(max_length=300)
     cost = models.IntegerField()

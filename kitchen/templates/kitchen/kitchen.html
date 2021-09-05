@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<h1>EL KitchenO</h1>
+<li><a  href="{% url 'all_ingrediants'  %}"> All Ingrediants</a></li>
+<li><a  href="{% url 'all_measurements'  %}"> All Measurements</a></li>
+<li><a  href="{% url 'all_transactions'  %}"> All Transactions</a></li>
+<li><a  href="{% url 'all_combos'  %}"> All Combos</a></li>
+
+
+{% endblock %}
