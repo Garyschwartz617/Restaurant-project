@@ -11,9 +11,9 @@
 </form>
 {% endif %}
 <h1>These are the Dishs</h1>
-{% if dishs%}
+{% if object_list %}
 <div class= 'row'>
-  {% for dish in dishs %}
+  {% for dish in object_list %}
   <div class="card" style="width: 18rem;">
       <div class="card-body">
         <h5 class="card-title">Name: {{dish.name}} </h5>
@@ -22,22 +22,12 @@
         <p class="card-text">Cost: {{dish.cost}}</p>
         <p class="card-text">ingrediants: {% for s in dish.measurement.all %}{{s.ingrediant.name}} sd {% endfor %}</p>
         {% if user.is_authenticated%}
-        <form action="{% url 'singular' dish.id%}" method="post">
+        <form action="{% url 'singular' dish.id %}" method="post">
           {% csrf_token %}
-          {{form2.as_p}}
+          {{form.as_p}}
           <button class="btn btn-primary">Add to Cart</button>
         </form>
         {% endif %}
-
-        {% if user.is_superuser%}
-        <form action="{%url 'delete_dish' dish.id %}" method="post">
-          {% csrf_token %}
-          
-          <button class="btn btn-danger">Delete Dish</button>
-        </form>
-        {% endif %}
-
-        <p></p>
       </div>
     </div>
   {% endfor %}

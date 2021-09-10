@@ -32,6 +32,7 @@ class Combo(models.Model):
     ingrediant = models.ForeignKey(Ingrediant, on_delete=CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     cost = models.IntegerField()
+    # dish = models.ForeignKey('service.Dish', on_delete=CASCADE)
 
     def __str__(self):
         return f'{self.measurement.name} {self.ingrediant.name}'

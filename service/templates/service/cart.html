@@ -1,0 +1,49 @@
+{% extends 'base.html'%}
+
+{% block content %}
+<h2>This is your cart</h2>
+
+<div class='row'>
+
+
+    <ul class="list-group">
+        <li><a  href="{% url 'dish' %}">Choose items</a></li>
+
+
+<h1> Your actual cart</h1>
+
+      {% for cart in my_cart%}
+      {% if cart.status == 'O'%}
+      {% for singular in cart.singular_set.all%}
+        
+        <li class="list-group-item">Name: {{singular.dish.name}}</li>
+        <li class="list-group-item">Cost: {{singular.dish.price}}</li>
+        <li class="list-group-item">Comments: {{singular.comments}}</li>
+        <p></p>
+        <form action="{% url 'delete_singular' singular.id %}" method="post">
+            {% csrf_token %}
+           
+            <button class="btn btn-danger">Delete from cart</button>
+          </form>
+          
+          
+          
+
+          {% endfor %}
+          <h2>Total: {{cart.total}}</h2>
+          <form action="{% url 'place_order' cart.id %}" method="post">
+            {% csrf_token %}
+           
+            <button class="btn btn-primary">Place order</button>
+          </form>
+
+
+          {% elif singular.status == P %}
+          {% elif singular.status == C %}
+          <p>All previous orders</p>
+        {% endif %}
+        {% endfor %}
+
+   
+</div>
+{% endblock %}
