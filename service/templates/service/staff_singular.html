@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<ul class="list-group">
+    <li><a  href="{% url 'staff_order' %}">All orders</a></li>
+{% if singulars%}
+<div class= 'row'>
+    {% for sing in singulars %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title">Name: {{sing.dish.name}} </h5>
+          <p class="card-text">Price: {{sing.dish.price}}</p>
+          <p class="card-text">Description: {{sing.comments}}</p>
+          <p></p>
+          <form action="{% url 'delete_singular_staff' sing.id %}" method="post">
+              {% csrf_token %}
+             
+              <button class="btn btn-danger">Delete from cart</button>
+            </form>
+  
+        </div>
+    </div>
+    {% endfor %}
+</div>
+    {% endif %}
+<h1>These are the Dishs</h1>
+
+<div class= 'row'>
+  {% for dish in dishs %}
+  <div class="card" style="width: 18rem;">
+      <div class="card-body">
+        <h5 class="card-title">Name: {{dish.name}} </h5>
+        <p class="card-text">Price: {{dish.price}}</p>
+        <p class="card-text">Description: {{dish.description}}</p>
+
+        <form action="{% url 'staff_singular_post' cart.id  dish.id %} " method="post">
+          {% csrf_token %}
+          {{form.as_p}}
+          <button class="btn btn-primary">Add to Cart</button>
+        </form>
+       
+      </div>
+    </div>
+  {% endfor %}
+  
+  </div>
+  
+{% endblock %}

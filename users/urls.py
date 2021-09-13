@@ -11,5 +11,10 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('all_users/', views.UserListView.as_view(), name = 'all_users'),
     path('delete_user/<int:pk>', views.UserDeleteView.as_view(), name = 'delete_user'),
+    
+    path('staff_register', views.StaffRegisterCreationView.as_view(), name = 'staff_register'),
+    path('start_cart', views.start_cart, name = 'start_cart'),
+    path('search_user/', views.search_user, name='search_user'),
+    path('create_cart/<int:pk>', views.create_cart, name = 'create_cart'),
 
 ]

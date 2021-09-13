@@ -15,7 +15,14 @@ class EditUserForm(forms.ModelForm):
         model = User
         fields = ('first_name', 'last_name', 'email')
 
-class EditProfileForm(forms.ModelForm):
+class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['address','city','number']
+        fields = ('address','city','number')        
+
+class MyUserCreationForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email')
+
+

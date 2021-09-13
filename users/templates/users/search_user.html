@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<h1>Search Results for: {{q}}</h1>
+{% if results.users %}
+<h4>Users</h4>
+<div class="list-group">
+{% for result in results.users %}
+   <a href="{% url 'create_cart' result.profile.id %}" class="list-group-item list-group-item-action " >
+        {{result.first_name}} {{result.last_name}}  {{result.username}} {{result.email}}
+    </a>
+ {% endfor %}
+</div>
+{% else %}
+No users found
+{% endif %}
+
+
+{% if results.profiles %}
+<h4>Profiles</h4>
+<div class="list-group">
+{% for result in results.profiles %}
+
+   <a href="{% url 'create_cart' result.id%}" class="list-group-item list-group-item-action " >
+      {{result.user.first_name}} {{result.user.last_name}} {{result.user.username}}   {{result.user.email}} {{result.number}} {{result.address}}
+    </a>
+    {% endfor %}
+</div>
+{% else %}
+No profiles found
+{% endif %}
+
+{% endblock %}

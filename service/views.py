@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from .forms import *
+from django.http import HttpResponse, HttpResponseRedirect
 # Create your views here.
 
 # def cards(request):
@@ -30,7 +31,6 @@ class CreateDishView(LoginRequiredMixin,CreateView):
         context['dishs'] = Dish.objects.all()
         form2 = CreateSingularForm(instance=self.request.user)
         context['form2'] = form2
-
         return context
 
     def form_valid(self, form):
@@ -82,11 +82,25 @@ class CreateSingularView(LoginRequiredMixin,CreateView):
    
 
     def form_valid(self, form):
-        sing = form.save(commit=False)
-        sing.cart = self.request.user.profile.cart_set.last()
-        sing.dish = Dish.objects.get(id = self.kwargs['pk'])
-        sing.save()
-        return super().form_valid(form)
+        print('hello')
+        c = Cart.objects.filter(profile = self.request.user.profile).last()
+        if  c.status == 'O':
+            print('hello')
+            sing = form.save(commit=False)
+            # sing.cart = self.request.user.profile.cart_set.last()
+            sing.cart = self.request.user.profile.cart_profile.last()
+            sing.dish = Dish.objects.get(id = self.kwargs['pk'])
+            sing.save()
+            return super().form_valid(form)
+        else:
+            Cart.objects.create(profile = self.request.user.profile)
+            sing = form.save(commit=False)
+            # sing.cart = self.request.user.profile.cart_set.last()
+            sing.cart = self.request.user.profile.cart_profile.last()
+
+            sing.dish = Dish.objects.get(id = self.kwargs['pk'])
+            sing.save()
+            return super().form_valid(form)
 
 
 class SingularDeleteView(LoginRequiredMixin,DeleteView):
@@ -94,3 +108,63 @@ class SingularDeleteView(LoginRequiredMixin,DeleteView):
     template_name = 'service/delete_singular.html'
     success_url = reverse_lazy('cart') 
 
+
+
+class CreateStaffOrderView(LoginRequiredMixin,CreateView):
+    model = Cart
+    fields =['customer']
+    success_url = reverse_lazy('staff_order')
+    template_name = 'service/staff_order.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['carts'] = Cart.objects.all().order_by('-date_created')
+        # context['carts'] = Cart.objects.filter(status= 'O')
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        self.object.profile = self.request.user.profile
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class CartDeleteView(LoginRequiredMixin,DeleteView):
+    model = Cart
+    template_name = 'service/delete_cart.html'
+    success_url = reverse_lazy('staff_order') 
+
+
+class CreateStaffSingularView(LoginRequiredMixin,CreateView):
+    model = Singular
+    fields =['comments']
+    # success_url = reverse_lazy('staff_order')
+    template_name = 'service/staff_singular.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['dishs'] = Dish.objects.all()
+        context['cart'] = Cart.objects.get(id = self.kwargs['pk'])
+        context['singulars'] = Singular.objects.filter(cart = self.kwargs['pk'])
+        return context
+
+    def form_valid(self, form):
+        sing = form.save(commit=False)
+        sing.cart = Cart.objects.get(id = self.kwargs['pk'])
+        print('hello')
+        
+        sing.dish = Dish.objects.get(id = self.kwargs['dish_pk'])
+        sing.save()
+        return super().form_valid(form)
+    
+    def get_success_url(self):
+
+        return reverse_lazy('staff_singular', kwargs= {'pk': self.kwargs['pk'] })
+
+class StaffSingularDeleteView(LoginRequiredMixin,DeleteView):
+    model = Singular
+    template_name = 'service/delete_singular.html'
+    success_url = reverse_lazy('staff_order') 
+
+    # def get_success_url(self):
+    #     return reverse_lazy('staff_singular', kwargs= {'pk': self.kwargs['pk'] })

@@ -25,9 +25,9 @@
               <li><a class="dropdown-item" href="{% url 'all_tipes' %}">Types</a></li>
               <li><a class="dropdown-item" href="{% url 'all_bills' %}">All Bills</a></li>
               <li><a class="dropdown-item" href="{% url 'kitchen' %}">Kitchen</a></li>
+              <li><a class="dropdown-item" href="{% url 'start_cart' %}">Start Order</a></li>
 
               <li><hr class="dropdown-divider"></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
               {% if user.is_superuser %}
               <li><a class="dropdown-item" href="{% url 'all_users'%}">User list</a></li>
               {% endif %}

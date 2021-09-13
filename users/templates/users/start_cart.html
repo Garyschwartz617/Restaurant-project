@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content%}
+<h1>Restaurante</h1>
+<h2>Search an existing order</h2>
+<ul class="list-group">
+    <li><a  href="{% url 'staff_order' %}">All orders</a></li>
+    
+    
+    <h2>Create a new order</h2>
+
+    <ul class="list-group">
+        <li><a  href="{% url 'staff_register' %}">Create  Account</a></li>
+                    
+
+            <form class="d-flex" action="{% url 'search_user' %}">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+              </form>
+
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'base.html'%}
+
+{% block content %}
+        <h2>These are the carts</h2>
+
+      {% for cart in carts%}
+      {% if cart.status == 'O'%}
+        {% if cart.customer %}
+        <li class="list-group-item">Name: {{cart.customer}}</li>
+        {% else %}
+        <li class="list-group-item">Online-order Name: {{cart.profile.user.username}} {{cart.profile.user.last_name}}</li>
+
+        {% endif %}
+        <li class="list-group-item">Date Created: {{cart.date_created}}</li>
+        <p></p>          
+          
+          
+        <ul class="list-group">
+            <li><a  href="{% url 'staff_singular' cart.id%}">Edit Cart</a></li>
+    
+          
+          <h2>Total: {{cart.total}}</h2>
+          <form action="{% url 'delete_cart' cart.id %}" method="post">
+            {% csrf_token %}
+           
+            <button class="btn btn-danger">Delete Cart</button>
+          </form>
+          <p></p>
+          {% else %}
+          <li class="list-group-item">Status: {{cart.status}}</li>
+
+          {% if cart.customer %}
+          <li class="list-group-item">Name: {{cart.customer}}</li>
+          {% else %}
+          <li class="list-group-item">Online-order Name: {{cart.profile.user.username}} {{cart.profile.user.last_name}}</li>
+  
+          {% endif %}
+          <li class="list-group-item">Date Created: {{cart.date_created}}</li>
+          <p></p>          
+            
+            
+          <ul class="list-group">
+              <li><a  href="{% url 'staff_singular' cart.id%}">Edit Cart</a></li>
+      
+            
+            <h2>Total: {{cart.total}}</h2>
+            <form action="{% url 'delete_cart' cart.id %}" method="post">
+              {% csrf_token %}
+             
+              <button class="btn btn-danger">Delete Cart</button>
+            </form>
+            <p></p>
+  
+          {% endif %}
+        {% endfor %}
+
+   
+</div>
+{% endblock %}
