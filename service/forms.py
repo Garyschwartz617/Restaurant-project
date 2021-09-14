@@ -16,3 +16,8 @@ class EditSingularForm(forms.ModelForm):
     class Meta:
         model = Singular
         fields = ['comments','cart']
+
+class EditSingular2Form(forms.ModelForm):
+    class Meta:
+        model = Singular
+        fields = ['comments']

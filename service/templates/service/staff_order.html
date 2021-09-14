@@ -19,7 +19,13 @@
             <li><a  href="{% url 'staff_singular' cart.id%}">Edit Cart</a></li>
     
           
-          <h2>Total: {{cart.total}}</h2>
+          <h2>Total: {{cart.total}}</h2>         
+           <form action="{% url 'place_order' cart.id %}" method="post">
+            {% csrf_token %}
+           
+            <button class="btn btn-primary">Place order</button>
+          </form>
+          <p></p>
           <form action="{% url 'delete_cart' cart.id %}" method="post">
             {% csrf_token %}
            
@@ -52,6 +58,7 @@
             <p></p>
   
           {% endif %}
+          <hr>
         {% endfor %}
 
    

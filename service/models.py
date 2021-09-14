@@ -65,7 +65,9 @@ class Singular(models.Model):
     def __str__(self):
         return self.dish.name
          
-
+    def get_form(self):
+        from .forms import EditSingular2Form
+        return EditSingular2Form(instance = self) # iniital = {'comments': self.comments}
 
 
 

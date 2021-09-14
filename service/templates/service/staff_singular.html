@@ -10,7 +10,13 @@
         <div class="card-body">
           <h5 class="card-title">Name: {{sing.dish.name}} </h5>
           <p class="card-text">Price: {{sing.dish.price}}</p>
-          <p class="card-text">Description: {{sing.comments}}</p>
+          <p class="card-text">Comments: {{sing.comments}}</p>
+          <form action="{% url 'update_singular' sing.id %}" method="post">
+            {% csrf_token %}
+            {{sing.get_form.as_p}}
+            <button class="btn btn-warning">update cart</button>
+          </form>
+  
           <p></p>
           <form action="{% url 'delete_singular_staff' sing.id %}" method="post">
               {% csrf_token %}

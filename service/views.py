@@ -15,8 +15,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 
 def placeorder(request, pk):
     Cart.check_out(request,pk)
+    if request.user.is_staff:
+        return redirect (reverse('staff_order'))
     return redirect (reverse('cart'))
-
 
 
 class CreateDishView(LoginRequiredMixin,CreateView):
@@ -42,17 +43,6 @@ class CreateDishView(LoginRequiredMixin,CreateView):
         return super().form_valid(form)
 
 
-# class DishListView(ListView):
-#     model = Dish
-#     template_name = 'service/all_dishs.html'
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         form = CreateSingularForm(instance=self.request.user)
-#         context['form'] = form
-#         return context
-
-
 class DishDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     model = Dish
     template_name = 'service/delete_dish.html'
@@ -67,9 +57,6 @@ class CartListView(LoginRequiredMixin,ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        form = EditSingularForm(instance=self.request.user)
-        form.fields['cart'].queryset = Cart.objects.filter(profile = self.request.user.profile)
-        context['form'] = form
         context['my_cart'] = Cart.objects.filter(profile = self.request.user.profile)
         return context
 
@@ -82,12 +69,9 @@ class CreateSingularView(LoginRequiredMixin,CreateView):
    
 
     def form_valid(self, form):
-        print('hello')
         c = Cart.objects.filter(profile = self.request.user.profile).last()
         if  c.status == 'O':
-            print('hello')
             sing = form.save(commit=False)
-            # sing.cart = self.request.user.profile.cart_set.last()
             sing.cart = self.request.user.profile.cart_profile.last()
             sing.dish = Dish.objects.get(id = self.kwargs['pk'])
             sing.save()
@@ -95,19 +79,37 @@ class CreateSingularView(LoginRequiredMixin,CreateView):
         else:
             Cart.objects.create(profile = self.request.user.profile)
             sing = form.save(commit=False)
-            # sing.cart = self.request.user.profile.cart_set.last()
             sing.cart = self.request.user.profile.cart_profile.last()
-
             sing.dish = Dish.objects.get(id = self.kwargs['pk'])
             sing.save()
             return super().form_valid(form)
+
+class UpdateSingular(LoginRequiredMixin,UpdateView):
+    model = Singular
+    fields =['comments']
+    template_name = 'service/update_singular.html'
+
+    def get_success_url(self):
+        if self.request.user.is_staff:
+            singular = Singular.objects.get(id = self.kwargs['pk'])
+            crt = singular.cart.id
+            return reverse_lazy('staff_singular', kwargs= {'pk': crt })
+        else:
+            return reverse_lazy('cart')
 
 
 class SingularDeleteView(LoginRequiredMixin,DeleteView):
     model = Singular
     template_name = 'service/delete_singular.html'
     success_url = reverse_lazy('cart') 
-
+    
+    # def get_success_url(self):
+    #     if self.request.user.is_staff:
+    #         singular = Singular.objects.get(id = self.kwargs['pk'])
+    #         crt = singular.cart.id
+    #         return reverse_lazy('staff_singular', kwargs= {'pk': crt })
+    #     else:
+    #         return reverse_lazy('cart')
 
 
 class CreateStaffOrderView(LoginRequiredMixin,CreateView):
@@ -119,7 +121,6 @@ class CreateStaffOrderView(LoginRequiredMixin,CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['carts'] = Cart.objects.all().order_by('-date_created')
-        # context['carts'] = Cart.objects.filter(status= 'O')
         return context
 
     def form_valid(self, form):
@@ -138,7 +139,6 @@ class CartDeleteView(LoginRequiredMixin,DeleteView):
 class CreateStaffSingularView(LoginRequiredMixin,CreateView):
     model = Singular
     fields =['comments']
-    # success_url = reverse_lazy('staff_order')
     template_name = 'service/staff_singular.html'
 
     def get_context_data(self, **kwargs):
@@ -151,8 +151,6 @@ class CreateStaffSingularView(LoginRequiredMixin,CreateView):
     def form_valid(self, form):
         sing = form.save(commit=False)
         sing.cart = Cart.objects.get(id = self.kwargs['pk'])
-        print('hello')
-        
         sing.dish = Dish.objects.get(id = self.kwargs['dish_pk'])
         sing.save()
         return super().form_valid(form)
@@ -166,5 +164,4 @@ class StaffSingularDeleteView(LoginRequiredMixin,DeleteView):
     template_name = 'service/delete_singular.html'
     success_url = reverse_lazy('staff_order') 
 
-    # def get_success_url(self):
-    #     return reverse_lazy('staff_singular', kwargs= {'pk': self.kwargs['pk'] })
+

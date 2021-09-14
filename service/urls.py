@@ -11,6 +11,7 @@ urlpatterns = [
 
     path('singular/<int:pk>', views.CreateSingularView.as_view(), name = 'singular'),
     path('delete_singular/<int:pk>', views.SingularDeleteView.as_view(), name = 'delete_singular'),
+    path('update_singular/<int:pk>', views.UpdateSingular.as_view(), name = 'update_singular'),
 
     # path('all_dishs/', views.DishListView.as_view(), name = 'all_dishs'),
 
@@ -21,5 +22,6 @@ urlpatterns = [
     path('staff_singular/<int:pk>/', views.CreateStaffSingularView.as_view(), name = 'staff_singular'),
     path('staff_singular/<int:pk>/<int:dish_pk>', views.CreateStaffSingularView.as_view(), name = 'staff_singular_post'),
     path('delete_singular_staff/<int:pk>', views.StaffSingularDeleteView.as_view(), name = 'delete_singular_staff'),
+    # path('update_staff_singular/<int:pk>', views.UpdateStaffSingular.as_view(), name = 'update_staff_singular'),
 
 ]
