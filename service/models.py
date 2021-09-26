@@ -6,6 +6,12 @@ from django.db.models.deletion import CASCADE
 
 # Create your models here.
 
+# class Course(models.Model):
+#     name = models.CharField(max_length=200)
+#     def __str__(self):
+#         return self.name 
+
+
 class Dish(models.Model):
     name = models.CharField(max_length=200)
     date_created = models.DateTimeField(auto_now_add=True)
@@ -13,7 +19,7 @@ class Dish(models.Model):
     price = models.FloatField()
     measurement = models.ManyToManyField(Combo, blank=True)
     cost = models.FloatField(null = True)
-
+    # course = models.ForeignKey(Course, on_delete=CASCADE)
     def __str__(self):
         return self.name 
 
@@ -68,7 +74,3 @@ class Singular(models.Model):
     def get_form(self):
         from .forms import EditSingular2Form
         return EditSingular2Form(instance = self) # iniital = {'comments': self.comments}
-
-
-
-

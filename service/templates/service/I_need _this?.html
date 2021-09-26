@@ -4,10 +4,10 @@
 {% if user.is_superuser%}
 <h2>Create a new Disht</h2>
 
-<form action="" method="post">
+<form action="" method="post" class="px-4 py-3">
   {% csrf_token %}
   {{form.as_p}}
-  <button class="btn btn-primary">Create Ingrediant</button>
+  <button class="btn btn-primary">Create Dish</button>
 </form>
 {% endif %}
 <h1>These are the Dishs</h1>
@@ -19,8 +19,11 @@
         <h5 class="card-title">Name: {{dish.name}} </h5>
         <p class="card-text">Price: {{dish.price}}</p>
         <p class="card-text">Description: {{dish.description}}</p>
+        {% if user.is_superuser%}
+
         <p class="card-text">Cost: {{dish.cost}}</p>
         <p class="card-text">ingrediants: {% for s in dish.measurement.all %}{{s.ingrediant.name}} sd {% endfor %}</p>
+        {% endif %}
         {% if user.is_authenticated%}
         <form action="{% url 'singular' dish.id %}" method="post">
           {% csrf_token %}
