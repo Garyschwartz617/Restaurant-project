@@ -7,14 +7,14 @@
 <form action="" method="post" class="px-4 py-3">
   {% csrf_token %}
   {{form.as_p}}
-  <button class="btn btn-primary">Create Dish</button>
+  <button class="btn btn-success">Create Dish</button>
 </form>
 {% endif %}
 <h1>These are the Dishs</h1>
 {% if dishs%}
 <div class= 'row'>
   {% for dish in dishs %}
-  <div class="card" style="width: 18rem;">
+  <div class="card" style="width: 28rem;">
       <div class="card-body">
         <h5 class="card-title">Name: {{dish.name}} </h5>
         <p class="card-text">Price: {{dish.price}}</p>
@@ -33,6 +33,7 @@
         {% endif %}
 
         {% if user.is_superuser%}
+        <p></p>
         <form action="{%url 'delete_dish' dish.id %}" method="post">
           {% csrf_token %}
           
@@ -40,9 +41,10 @@
         </form>
         {% endif %}
 
-        <p></p>
-      </div>
+        
+      </div>   
     </div>
+   
   {% endfor %}
   
   </div>

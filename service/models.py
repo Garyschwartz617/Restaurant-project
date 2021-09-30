@@ -66,7 +66,7 @@ class Cart(models.Model):
 
 class Singular(models.Model):
     dish = models.ForeignKey(Dish, on_delete=CASCADE)
-    comments = models.TextField()
+    comments = models.TextField(null=True,blank=True)
     cart = models.ForeignKey(Cart, on_delete=CASCADE)
     def __str__(self):
         return self.dish.name

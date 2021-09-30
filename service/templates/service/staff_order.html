@@ -23,7 +23,7 @@
            <form action="{% url 'place_order' cart.id %}" method="post">
             {% csrf_token %}
            
-            <button class="btn btn-primary">Place order</button>
+            <button class="btn btn-success">Place order</button>
           </form>
           <p></p>
           <form action="{% url 'delete_cart' cart.id %}" method="post">
