@@ -20,6 +20,9 @@ def placeorder(request, pk):
     return redirect (reverse('cart'))
 
 
+
+
+
 class CreateDishView(LoginRequiredMixin,CreateView):
     model = Dish
     # fields = '__all__'
@@ -49,6 +52,11 @@ class DishDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     success_url = reverse_lazy('dish') 
     def test_func(self):
         return self.request.user.is_superuser
+
+
+class MenuListView(ListView):
+    model = Dish
+    template_name = 'service/menu.html' 
 
 
 class CartListView(LoginRequiredMixin,ListView):

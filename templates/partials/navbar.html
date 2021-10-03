@@ -10,7 +10,10 @@
             <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="{% url 'dish' %}">{% if user.is_authenticated%}Order Now{% else %}Menu {% endif %}</a>
+            {% if user.is_authenticated%}
+            <a class="nav-link" href="{% url 'dish' %}">Order Now</a> 
+            {% else %}<a class="nav-link" href="{% url 'menu' %}">Menu</a>
+             {% endif %}
           </li>
           {% if user.is_authenticated%}
           <li class="nav-item">
@@ -48,10 +51,10 @@
         </li>
         {% else%}
         <li class="nav-item">
-        <a class="nav-link " href="{% url 'login' %}" tabindex="-1" >login</a>
+        <a class="nav-link " href="{% url 'login' %}" tabindex="-1" >Login</a>
         </li>
         <li class="nav-item">
-        <a class="nav-link " href="{% url 'signup' %}" tabindex="-1" >signup</a>
+        <a class="nav-link " href="{% url 'signup' %}" tabindex="-1" >SignUp</a>
         </li>
         {% endif %}
       </div>
