@@ -60,3 +60,14 @@ class BillDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     def test_func(self):
         return self.request.user.is_superuser
 
+
+def all_costs():
+    cst = 0
+    bills= Bill.objects.all()
+    for bill in bills:
+        cst += bill.cost
+    return cst
+
+def financial_summary(request):
+    context ={'cost': all_costs(), }
+    return render(request, 'finance/summary.html',context)

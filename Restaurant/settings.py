@@ -141,6 +141,9 @@ LOGOUT_REDIRECT_URL = 'home'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR/'media/'
 
+EMAIL_HOST_USER = 'Garydjango1@gmail.com'
+
+
 
 try:
     from .local_settings import *
