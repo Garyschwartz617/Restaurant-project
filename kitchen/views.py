@@ -90,3 +90,22 @@ class ComboDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
     success_url = reverse_lazy('all_combos') 
     def test_func(self):
         return self.request.user.is_superuser
+
+
+class CreateCourseView(LoginRequiredMixin,CreateView):
+    model = Course
+    fields = '__all__'
+    success_url = reverse_lazy('all_courses')
+    template_name = 'kitchen/all_courses.html'
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['courses'] = Course.objects.all()
+        return context
+
+class CourseDeleteView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
+    model = Course
+    template_name = 'kitchen/delete_course.html'
+    success_url = reverse_lazy('all_courses') 
+    def test_func(self):
+        return self.request.user.is_superuser

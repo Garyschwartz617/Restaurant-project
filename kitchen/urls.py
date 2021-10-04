@@ -17,6 +17,10 @@ urlpatterns = [
     path('create_combo/', views.CreateComboView.as_view(), name = 'all_combos'),
     path('delete_combo/<int:pk>', views.ComboDeleteView.as_view(), name = 'delete_combo'),
 
+    path('create_course', views.CreateCourseView.as_view(), name='all_courses'),
+    path('delete_course/<int:pk>', views.CourseDeleteView.as_view(), name = 'delete_course'),
+
+
     # path('all_bills/', views.CreateBillView.as_view(), name = 'all_bills'),
     # path('bill/<int:pk>', views.BillDetailView.as_view(), name='bill'),
     # path('update_bill/<int:pk>', views.UpdateBillView.as_view(), name='update_bill'),

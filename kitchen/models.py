@@ -45,3 +45,9 @@ class Combo(models.Model):
         cost = orig_cost / orig_measu
         cost = cost * measur
         return cost
+
+class Course(models.Model):
+    name = models.CharField(max_length=200)
+    def __str__(self):
+        return self.name 
+

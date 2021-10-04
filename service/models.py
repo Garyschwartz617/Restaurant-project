@@ -19,7 +19,7 @@ class Dish(models.Model):
     price = models.FloatField()
     measurement = models.ManyToManyField(Combo, blank=True)
     cost = models.FloatField(null = True)
-    # course = models.ForeignKey(Course, on_delete=CASCADE)
+    course = models.ForeignKey('kitchen.Course', on_delete=CASCADE)
     def __str__(self):
         return self.name 
 

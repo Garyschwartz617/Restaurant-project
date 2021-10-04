@@ -1,3 +1,4 @@
+from kitchen.models import Course
 from django.shortcuts import redirect, render
 from .models import *
 from django.views.generic import CreateView, UpdateView, DetailView,ListView,DeleteView
@@ -21,12 +22,10 @@ def placeorder(request, pk):
 
 
 
-
-
 class CreateDishView(LoginRequiredMixin,CreateView):
     model = Dish
     # fields = '__all__'
-    fields =['name', 'description','price', 'measurement']
+    fields =['name', 'description','price', 'measurement','course']
     success_url = reverse_lazy('dish')
     template_name = 'service/dish.html'
    
@@ -35,6 +34,8 @@ class CreateDishView(LoginRequiredMixin,CreateView):
         context['dishs'] = Dish.objects.all()
         form2 = CreateSingularForm(instance=self.request.user)
         context['form2'] = form2
+        context['courses'] = Course.objects.all()
+
         return context
 
     def form_valid(self, form):

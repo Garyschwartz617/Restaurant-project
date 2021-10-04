@@ -7,6 +7,7 @@ urlpatterns = [
     path('dish/', views.CreateDishView.as_view(), name = 'dish'),
     path('delete_dish/<int:pk>', views.DishDeleteView.as_view(), name = 'delete_dish'),
     
+    # path('course', views.CreateCourseView.as_view(), name='course'),
     path('menu', views.MenuListView.as_view(), name= 'menu' ),
     
     path('cart/',views.CartListView.as_view(), name = 'cart'),

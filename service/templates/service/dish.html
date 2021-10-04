@@ -11,9 +11,12 @@
 </form>
 {% endif %}
 <h1>These are the Dishs</h1>
-{% if dishs%}
+{% if courses%}
 <div class= 'row'>
-  {% for dish in dishs %}
+{%for course in courses%}
+<h3>{{course.name}}'s</h3>
+
+{% for dish in course.dish_set.all %}
   <div class="card" style="width: 28rem;">
       <div class="card-body">
         <h5 class="card-title">Name: {{dish.name}} </h5>
@@ -46,7 +49,6 @@
     </div>
    
   {% endfor %}
-  
-  </div>
-  {% endif %}
+{% endfor%}
+{% endif %}
 {% endblock %}
