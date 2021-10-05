@@ -3,52 +3,68 @@
 {% block content %}
 
 <div class='row'>
-    <ul class="list-group">
-        <li><a  href="{% url 'dish' %}"> Choose items</a></li>
+  <div class="col align-self-start">
+  <ul class="list-group">
+    <li><a href="{% url 'dish' %}"> Choose items</a></li>
+  </div>
 
+    <h1> Your Cart!</h1>
 
-<h1> Your Cart!</h1>
-
-      {% for cart in my_cart%}
-      {% if cart.status == 'O'%}
+    {% for cart in my_cart%}
+    {% if cart.status == 'O'%}
+    <div class="row">
       {% for singular in cart.singular_set.all%}
-        
-        <li class="list-group-item">Name: {{singular.dish.name}}</li>
-        <li class="list-group-item">Cost: {{singular.dish.price}}</li>
-        <li class="list-group-item">Comments: {{singular.comments}}</li>
-        <form action="{% url 'update_singular' singular.id %}" method="post">
-          {% csrf_token %}
-          {{singular.get_form.as_p}}
-          <button class="btn btn-warning">update cart</button>
-        </form>
 
-        
-        
-        <p></p>
-        <form action="{% url 'delete_singular' singular.id %}" method="post">
-            {% csrf_token %}
-           
-            <button class="btn btn-danger">Delete from cart</button>
-          </form>
-          
-          
-          
-
-          {% endfor %}
-          <h2>Total: {{cart.total}}</h2>
-          <form action="{% url 'place_order' cart.id %}" method="post">
-            {% csrf_token %}
-           
-            <button class="btn btn-success">Place order</button>
-          </form>
+      <!-- <div class="col-sm-3"></div> -->
+      <div class="col-sm-4">
 
 
-          {% elif singular.status == P %}
-          {% elif singular.status == C %}
-          <p>All previous orders</p>
-        {% endif %}
-        {% endfor %}
+        <div class="card">
+          <div class="card-body">
 
-   
+            <li class="list-group-item">Name: {{singular.dish.name}}</li>
+            <li class="list-group-item">Cost: {{singular.dish.price}}</li>
+            <li class="list-group-item">Comments: {{singular.comments}}</li>
+            <div class="row align-items-end">
+              <div class="col-sm-4">
+              <form action="{% url 'update_singular' singular.id %}" method="post">
+                {% csrf_token %}
+                {{singular.get_form.as_p}}
+                <button class="btn btn-warning">update cart</button>
+              </form>
+              </div>
+
+
+              <!-- <p></p> -->
+              <div class="col-sm-5">
+              <form action="{% url 'delete_singular' singular.id %}" method="post">
+                {% csrf_token %}
+
+                <button class="btn btn-danger">Delete from cart</button>
+              </form>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {% endfor %}
+    </div>
+    <h2>Total: {{cart.total}}</h2>
+    <form action="{% url 'place_order' cart.id %}" method="post">
+      {% csrf_token %}
+
+      <button class="btn btn-success">Place order</button>
+    </form>
+
+
+    {% elif singular.status == P %}
+    {% elif singular.status == C %}
+    <p>All previous orders</p>
+    {% endif %}
+    {% endfor %}
+
+
 </div>
 {% endblock %}
