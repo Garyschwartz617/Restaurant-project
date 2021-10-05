@@ -23,9 +23,10 @@ def placeorder(request, pk):
 
 
 class CreateDishView(LoginRequiredMixin,CreateView):
-    model = Dish
+    # model = Dish
     # fields = '__all__'
-    fields =['name', 'description','price', 'measurement','course']
+    # fields =['name', 'description','price', 'measurement','course']
+    form_class = DishForm
     success_url = reverse_lazy('dish')
     template_name = 'service/dish.html'
    

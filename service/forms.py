@@ -1,10 +1,20 @@
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from .models import Singular
+from .models import Singular,Dish
 from django import forms
-from users.models import Profile
 
 
+class DishForm(forms.ModelForm):
+    class Meta:
+        model = Dish
+        fields = ('name', 'description','price', 'measurement','course')
+
+        widgets = {
+            'name' : forms.TextInput(attrs={'class' : 'form-control'}),
+            'description' : forms.Textarea(attrs={'class' : 'form-control'}),
+            'price' : forms.TextInput(attrs={'class' : 'form-control'}),
+            'measurement' : forms.SelectMultiple(attrs={'class' : 'form-control'}),
+            'course' : forms.Select(attrs={'class' : 'form-control'}),
+           
+        }
 
 class CreateSingularForm(forms.ModelForm):
     class Meta:
@@ -21,3 +31,4 @@ class EditSingular2Form(forms.ModelForm):
     class Meta:
         model = Singular
         fields = ['comments']
+ 

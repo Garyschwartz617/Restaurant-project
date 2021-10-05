@@ -2,14 +2,23 @@
 
 {% block content%}
 {% if user.is_superuser%}
-<h2>Create a new Dish</h2>
 
+  <div class="row ">
+    <h2>Create a new Dish</h2>
+ 
+      <div class="col-5 ">
+       
 <form action="" method="post" class="px-4 py-3">
   {% csrf_token %}
   {{form.as_p}}
   <button class="btn btn-success">Create Dish</button>
 </form>
 {% endif %}
+</div>
+</div>
+</div>
+
+
 <h1>These are the Dishs</h1>
 {% if courses%}
 <div class= 'row'>
